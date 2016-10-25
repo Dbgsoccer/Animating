@@ -25,6 +25,7 @@ public class CustomView extends SurfaceView implements SurfaceHolder.Callback {
     Paint text;
     int x,y;
     int score;
+    int speed = score;
 
     public CustomView(Context ctx, AttributeSet attrs) {
         super(ctx,attrs);
@@ -108,8 +109,10 @@ public class CustomView extends SurfaceView implements SurfaceHolder.Callback {
         canvas.drawBitmap(bwBalloon,x,y,null);
         canvas.drawText("Score: " + score,600,50,text);
         //x++;
-        y+=10;
+        x+=score;
         //Log.v("drawing", "y: " + y);
+        // here i need to fin out the width of a screen and then
+        // set a game pause or loose state when w is larger than width of screen
     }
 
 
@@ -120,8 +123,8 @@ public class CustomView extends SurfaceView implements SurfaceHolder.Callback {
         double distance = Math.sqrt((x-event.getX()) * (x-event.getX()) + (y-event.getY()) * (y-event.getY()));
         if(distance < 100) {
             score++;
-            x = (int) (Math.random() * 500);
-            y=0;
+            y = (int) (Math.random() * 800);
+            x=0;
         }
         return true;
     }
