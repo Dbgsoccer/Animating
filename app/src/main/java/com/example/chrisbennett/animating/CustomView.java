@@ -185,7 +185,7 @@ public class CustomView extends SurfaceView implements SurfaceHolder.Callback {
             view = v;
             time = System.currentTimeMillis();
         }
-
+// fdsfds
 
 
         void setRunning(boolean r) {
