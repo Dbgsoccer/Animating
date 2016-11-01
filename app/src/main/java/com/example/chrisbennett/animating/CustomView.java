@@ -9,11 +9,18 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.WindowManager;
+
+import java.util.Random;
+
+import static java.lang.Math.sin;
 
 
 public class CustomView extends SurfaceView implements SurfaceHolder.Callback {
@@ -26,14 +33,30 @@ public class CustomView extends SurfaceView implements SurfaceHolder.Callback {
     int x,y;
     int score;
     int speed = score;
+    int corgiHeight = 100;
+    public int screenWidth,screenHeight;
 
+    //int amplitude = 10;
+
+
+
+
+
+    public int getScreenHeight() {
+        screenHeight = getDisplay().getHeight();
+        return screenHeight;
+    }
+    public int getScreenWidth(){
+        screenWidth = getDisplay().getWidth();
+        return screenWidth;
+    }
     public CustomView(Context ctx, AttributeSet attrs) {
         super(ctx,attrs);
         context = ctx;
 
-        balloon = BitmapFactory.decodeResource(context.getResources(),R.drawable.redballoon);
+        balloon = BitmapFactory.decodeResource(context.getResources(),R.drawable.supercorgi);
         bwBalloon=balloon.copy(Bitmap.Config.ARGB_8888, true);
-        bwBalloon = resizeBitmap(bwBalloon,75,200);
+        bwBalloon = resizeBitmap(bwBalloon,150,corgiHeight);
         /*
         for(int i=0;i<bwBalloon.getWidth();i++) {
            for(int j=0;j<bwBalloon.getHeight();j++) {
@@ -52,6 +75,7 @@ public class CustomView extends SurfaceView implements SurfaceHolder.Callback {
         x=0;
         y=0;
         score = 0;
+
 
     }
 
@@ -105,14 +129,20 @@ public class CustomView extends SurfaceView implements SurfaceHolder.Callback {
 
 
     public void customDraw(Canvas canvas) {
+        screenHeight = getScreenHeight();
+        screenWidth = getScreenWidth();
         canvas.drawColor(Color.BLACK);
         canvas.drawBitmap(bwBalloon,x,y,null);
-        canvas.drawText("Score: " + score,600,50,text);
-        //x++;
+        canvas.drawText("Score: " + score,screenWidth/2,50,text);
         x+=score;
+        //bellow is a potential way to make corgi move in not a straight line
+        //x =  amplitude * (int)sin(y);
         //Log.v("drawing", "y: " + y);
-        // here i need to fin out the width of a screen and then
-        // set a game pause or loose state when w is larger than width of screen
+
+        if(x>screenWidth){
+            //need to be able to switch layout view here
+            //gameOver();
+        }
     }
 
 
@@ -121,9 +151,17 @@ public class CustomView extends SurfaceView implements SurfaceHolder.Callback {
         Log.v("touch event",event.getX() + "," + event.getY());
 
         double distance = Math.sqrt((x-event.getX()) * (x-event.getX()) + (y-event.getY()) * (y-event.getY()));
-        if(distance < 100) {
+        if(distance < 150) {
             score++;
-            y = (int) (Math.random() * 800);
+           //this is how we avoid hardcoding where corgi shows up
+            int min = corgiHeight;
+            int max = screenHeight-corgiHeight*4;
+
+            //not sure why I need to multiply corgiHeight by 4 in prder to keep it
+            //above the bottom of the screen
+            Random r = new Random();
+            int i1 = r.nextInt(max - min + 1) + min;
+            y = i1;
             x=0;
         }
         return true;
@@ -147,6 +185,8 @@ public class CustomView extends SurfaceView implements SurfaceHolder.Callback {
             view = v;
             time = System.currentTimeMillis();
         }
+
+
 
         void setRunning(boolean r) {
             running = r;
