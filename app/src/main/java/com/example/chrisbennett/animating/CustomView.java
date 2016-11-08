@@ -16,10 +16,16 @@ import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 
 import java.util.Random;
 
+import static android.R.attr.button;
+import static android.R.attr.visibility;
+import static android.R.attr.visible;
+import static android.R.attr.x;
 import static java.lang.Math.sin;
 
 
@@ -35,6 +41,7 @@ public class CustomView extends SurfaceView implements SurfaceHolder.Callback {
     int speed = score;
     int corgiHeight = 100;
     public int screenWidth,screenHeight;
+    Button b = (Button) findViewById(R.id.newGameBtn);
 
     //int amplitude = 10;
 
@@ -113,6 +120,7 @@ public class CustomView extends SurfaceView implements SurfaceHolder.Callback {
 
     }
 
+
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 
@@ -125,10 +133,12 @@ public class CustomView extends SurfaceView implements SurfaceHolder.Callback {
         thread= new DrawingThread(holder, context, this);
         thread.setRunning(true);
         thread.start();
+
     }
 
 
     public void customDraw(Canvas canvas) {
+        //Button b = (Button) findViewById(R.id.newGameBtn);
         screenHeight = getScreenHeight();
         screenWidth = getScreenWidth();
         canvas.drawColor(Color.BLACK);
@@ -140,11 +150,20 @@ public class CustomView extends SurfaceView implements SurfaceHolder.Callback {
         //Log.v("drawing", "y: " + y);
 
         if(x>screenWidth){
+
+            b.setVisibility(VISIBLE);
             //need to be able to switch layout view here
             //gameOver();
         }
     }
+    public void newGame(){
+        x=0;
+        y=0;
+        score=0;
+        Button b = (Button) findViewById(R.id.newGameBtn);
+        b.setVisibility(INVISIBLE);
 
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -211,3 +230,5 @@ public class CustomView extends SurfaceView implements SurfaceHolder.Callback {
 
     }
 }
+//I need to make a hidden button that appears when the corgi hits a thing
+// When it pops up, hae an on click event that set score to 0, set corgi back to starting position, and makes button invisible
