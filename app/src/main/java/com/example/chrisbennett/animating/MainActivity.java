@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-       // Button b = (Button) findViewById(R.id.newGameBtn);
+        Button btn = (Button) findViewById(R.id.newGameBtn);
     }
 
 }

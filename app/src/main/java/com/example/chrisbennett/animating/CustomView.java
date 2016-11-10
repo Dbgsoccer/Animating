@@ -41,7 +41,7 @@ public class CustomView extends SurfaceView implements SurfaceHolder.Callback {
     int speed = score;
     int corgiHeight = 100;
     public int screenWidth,screenHeight;
-    Button b = (Button) findViewById(R.id.newGameBtn);
+    Button btn = (Button) findViewById(R.id.newGameBtn);
 
     //int amplitude = 10;
 
@@ -59,6 +59,7 @@ public class CustomView extends SurfaceView implements SurfaceHolder.Callback {
     }
     public CustomView(Context ctx, AttributeSet attrs) {
         super(ctx,attrs);
+        //Button btn = (Button) findViewById(R.id.newGameBtn);
         context = ctx;
 
         balloon = BitmapFactory.decodeResource(context.getResources(),R.drawable.supercorgi);
@@ -133,12 +134,12 @@ public class CustomView extends SurfaceView implements SurfaceHolder.Callback {
         thread= new DrawingThread(holder, context, this);
         thread.setRunning(true);
         thread.start();
-
+        //Button btn = (Button) findViewById(R.id.newGameBtn);
     }
 
 
     public void customDraw(Canvas canvas) {
-        //Button b = (Button) findViewById(R.id.newGameBtn);
+        Button btn = (Button) findViewById(R.id.newGameBtn);
         screenHeight = getScreenHeight();
         screenWidth = getScreenWidth();
         canvas.drawColor(Color.BLACK);
@@ -151,17 +152,21 @@ public class CustomView extends SurfaceView implements SurfaceHolder.Callback {
 
         if(x>screenWidth){
 
-            b.setVisibility(VISIBLE);
-            //need to be able to switch layout view here
+            if (btn!=null) {
+                btn.setVisibility(VISIBLE);
+            }
+                //need to be able to switch layout view here
             //gameOver();
         }
     }
-    public void newGame(){
+    public void newGame(Canvas canvas){
         x=0;
         y=0;
         score=0;
-        Button b = (Button) findViewById(R.id.newGameBtn);
-        b.setVisibility(INVISIBLE);
+        //
+        if(btn!=null) {
+            btn.setVisibility(INVISIBLE);
+        }
 
     }
 
