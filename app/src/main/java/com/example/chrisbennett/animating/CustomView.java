@@ -156,7 +156,7 @@ public class CustomView extends SurfaceView implements SurfaceHolder.Callback {
                 btn.setVisibility(VISIBLE);
             }
                 //need to be able to switch layout view here
-            //gameOver();
+            //gameOver();g
         }
     }
     public void newGame(Canvas canvas){
